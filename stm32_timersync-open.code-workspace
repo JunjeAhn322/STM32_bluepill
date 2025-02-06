@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "../../../../Desktop/LIV_handhold-main/stm32_timersync-open"
+		},
+		{
+			"name": "FastLivo",
+			"path": "."
+		},
+		{
+			"path": "../../../../Desktop/LIV_handhold-main/STM32F10x_StdPeriph_Lib_V3.6.0"
+		}
+	],
+	"settings": {}
+}
