@@ -78,50 +78,71 @@ char value_time[10]="";
 
 char test[100]="$GPRMC,004015,A,2812.0498,N,11313.1361,E,0.0,180.0,150122,3.9,W,A*";
 
-void TIM3_IRQHandler(void)   
+
+void TIM3_IRQHandler(void)
 {
-	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) {
-		TIM_ClearITPendingBit(TIM3, TIM_IT_Update  );  
+	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
+	{
+		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 		LED1=!LED1;
-			
-			
+
 		TIM2->CNT=TIM2->ARR/2;
 
 		PCout(13)=0;
 	}
-	
-    if(ss<59){
-				ss++;
-	}else{
-		ss=0;
-		if(mm<59){
-			mm++;
-		}else{
-			mm=0;
-			if(hh<23){
-				hh++;
-			}else{
-				hh=0;
-			}
-		}
-	}
+	global_time++;
 
-    sprintf(value_2, "%s%02d%02d%02d%s", gprmcStr, hh, mm, ss, ".00,A,2237.496474,N,11356.089515,E,0.0,225.5,060225,2.3,W,A*");
-	strcpy(value_1,value_2);
-	chckNum =checkNum(value_1);
-	sprintf(chckNumChar, "%02X", chckNum);
-	usart1_send_string(value_2);      // Send the GPRMC line (without checksum)
-    usart1_send_string("23");  // Send the 2-digit checksum
-    usart1_send_string("\r\n");       // Newline at the end
-	// char* buffer = malloc(strlen(value_2) + strlen(chckNumChar) + 3);
-	// strcpy(buffer, value_2);
-	// strcat(buffer,chckNumChar);
-	// strcat(buffer,"\n");
-	// usart1_send_string(buffer);
-	// printf("%s", value_2);
-    // printf("%s\n", chckNumChar);
-	// free(buffer);
+	shorttt=0;
+	sprintf(snum, "%06d", global_time);
+	snum[6]=0;
+	printf("$GPRMC,");
+	printf(snum);
+	printf(".00,A,2237.496474,N,11356.089515,E,0.0,225.5,310518,2.3,W,A*23\n");
 }
+// void TIM3_IRQHandler(void)   
+// {
+// 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) {
+// 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update  );  
+// 		LED1=!LED1;
+			
+			
+// 		TIM2->CNT=TIM2->ARR/2;
+
+// 		PCout(13)=0;
+// 	}
+	
+//     if(ss<59){
+// 				ss++;
+// 	}else{
+// 		ss=0;
+// 		if(mm<59){
+// 			mm++;
+// 		}else{
+// 			mm=0;
+// 			if(hh<23){
+// 				hh++;
+// 			}else{
+// 				hh=0;
+// 			}
+// 		}
+// 	}
+
+//     sprintf(value_2, "%s%02d%02d%02d%s", gprmcStr, hh, mm, ss, ".00,A,2237.496474,N,11356.089515,E,0.0,225.5,060225,2.3,W,A*");
+// 	strcpy(value_1,value_2);
+// 	chckNum =checkNum(value_1);
+// 	sprintf(chckNumChar, "%02X", chckNum);
+// 	usart1_send_string(value_2);      // Send the GPRMC line (without checksum)
+//     usart1_send_string("23");  // Send the 2-digit checksum
+//     usart1_send_string("\r\n");       // Newline at the end
+// 	// char* buffer = malloc(strlen(value_2) + strlen(chckNumChar) + 3);
+// 	// strcpy(buffer, value_2);
+// 	// strcat(buffer,chckNumChar);
+// 	// strcat(buffer,"\n");
+// 	// usart1_send_string(buffer);
+// 	// printf("%s", value_2);
+//     // printf("%s\n", chckNumChar);
+// 	// free(buffer);
+// }
 
 
 
